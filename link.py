@@ -18,7 +18,7 @@ class Link (object):
         return int(lines.group(1).strip()) if lines else 0
 
     def get_bytes(self):
-        lines = re.search(r'(\d+\.*\d*)', self.get_info())
+        lines = re.search(r'\)\s*(\d+\.*\d*)', self.get_info())
         return float(lines.group(1).strip()) if lines else 0
 
     def get_info(self):

@@ -16,8 +16,8 @@ def main():
                     'lines': 0,
                     'bytes': 0.0
                 }
-                result[project_file.extension]['lines'] += project_file.get_lines()
-                result[project_file.extension]['bytes'] += project_file.get_bytes()
+            result[project_file.extension]['lines'] += project_file.get_lines()
+            result[project_file.extension]['bytes'] += project_file.get_bytes()
         pprint(result)
 
 main()

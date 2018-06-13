@@ -14,14 +14,14 @@ class Link (object):
         return '/tree' in self.url
 
     def get_lines(self):
-        lines = re.search(r'(.+)lines', self.info())
+        lines = re.search(r'(.+)lines', self.get_info())
         return int(lines.group(1).strip()) if lines else 0
 
     def get_bytes(self):
-        lines = re.search(r'(\d+.\d)bytes', self.info()).group(1).strip()
+        lines = re.search(r'(\d+.\d)', self.get_info())
         return float(lines.group(1).strip()) if lines else 0
 
-    def info(self):
+    def get_info(self):
         if self.info is None:
             self.info = self.scrapper.get_link_info(self.url)
         return self.info

@@ -1,6 +1,7 @@
 
 import re
 
+
 class Link (object):
 
     def __init__(self, url, parent=None, scrapper=None):
@@ -18,8 +19,8 @@ class Link (object):
         return int(lines.group(1).strip()) if lines else 0
 
     def get_bytes(self):
-        bytes = re.search(r'\)\s*(\d+\.*\d*)', self.get_info())
-        return float(bytes.group(1).strip()) if bytes else 0
+        _bytes = re.search(r'\)\s*(\d+\.*\d*)', self.get_info())
+        return float(_bytes.group(1).strip()) if _bytes else 0
 
     def get_info(self):
         if self.info is None:

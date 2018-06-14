@@ -3,14 +3,12 @@ import re
 
 class Link (object):
 
-    def __init__(self, url, parent = None, scrapper = None):
+    def __init__(self, url, parent=None, scrapper=None):
         self.url = url
         self.parent = parent
         self.scrapper = scrapper
-        self.extension = self.url.split('.')[-1]
         self.info = None
         self.files = []
-        self.depth = 0
 
     def is_folder(self):
         return '/tree' in self.url
@@ -20,8 +18,8 @@ class Link (object):
         return int(lines.group(1).strip()) if lines else 0
 
     def get_bytes(self):
-        lines = re.search(r'\)\s*(\d+\.*\d*)', self.get_info())
-        return float(lines.group(1).strip()) if lines else 0
+        bytes = re.search(r'\)\s*(\d+\.*\d*)', self.get_info())
+        return float(bytes.group(1).strip()) if bytes else 0
 
     def get_info(self):
         if self.info is None:
@@ -34,8 +32,13 @@ class Link (object):
         while parent is not None:
             parent = parent.parent
             depth += 1
-        self.depth = depth
         return depth
 
     def get_name(self):
-        return self.url.split('/')[7 + self.depth]
+        return self.url.split('/')[-1]
+
+    def get_extension(self):
+        extension = self.url.split('.')[-1]
+        if extension.find('/') > 0:
+            extension = 'others'
+        return extension

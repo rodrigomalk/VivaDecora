@@ -1,5 +1,5 @@
 
-from link import*
+from link import Link
 from pprint import pprint
 
 class ProjectFiles(object):

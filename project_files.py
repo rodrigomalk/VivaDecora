@@ -33,6 +33,9 @@ class ProjectFiles(object):
                 self.files_ordened.append(file.get_name())
                 self.files.remove(file)
                 self.deepening_list(file, 1)
+            elif file.depth <= 0:
+                self.files_ordened.append(file.get_name())
+                self.files.remove(file)
         return self.files_ordened
 
     def deepening_list(self, parent, depth):

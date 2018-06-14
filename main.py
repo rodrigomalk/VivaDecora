@@ -1,8 +1,10 @@
-from pprint import pprint
 from datetime import datetime
-from project_files import *
-from git_hub_scrapper import *
-from file import *
+from pprint import pprint
+
+from scrape.file import *
+from scrape.git_hub_scrapper import *
+from scrape.project_files import *
+
 DOMAIN = 'https://github.com'
 
 def main():
@@ -14,7 +16,7 @@ def main():
         print('[{projeto}]'.format(projeto=project))
 
         project_files = ProjectFiles(project, domain = DOMAIN, scrapper = GitHubScrapper)
-        files = reversed(list(project_files.list_files()))
+        files = list(reversed(list(project_files.list_files())))
         result = dict()
         all_lines = 0
         all_bytes = 0
@@ -32,12 +34,26 @@ def main():
                 all_bytes += project_file.get_bytes()
                 result[project_file.extension]['lines'] += project_file.get_lines()
                 result[project_file.extension]['bytes'] += project_file.get_bytes()
+
+        print('Extensão')
+
+        for extension in result:
+            lines = result[extension]['lines']
+            _bytes = round(result[extension]['bytes'], 2)
+            lines_percent = round(100 * lines / all_lines, 2)
+            bytes_percent = round(100 * _bytes / all_bytes, 2)
+            print('{extension}: linhas={lines} ({lines_percent}%)  bytes={bytes} ({bytes_percent}%)'.format(
+                extension=extension,
+                lines=lines,
+                lines_percent=lines_percent,
+                bytes=_bytes,
+                bytes_percent=bytes_percent
+            ))
+
+        print('\nArvore de diretórios:')
+
         for project_file in files:
-            if not project_file.is_folder():
-                result[project_file.extension]['lines_percent'] = '(' + str(round(100 * result[project_file.extension]['lines'] / all_lines, 2)) + '%)'
-                result[project_file.extension]['bytes_percent'] = '(' + str(round(100 * result[project_file.extension]['bytes'] / all_bytes, 2)) + '%)'
-        pprint(result)
-        pprint('\t' * project_file.get_depth() + project_file.get_name())
+            print('\t' * project_file.get_depth() + project_file.get_name())
 
     print('[FIM.{_date:%Y/%m/%d %H:%M:%S}]'.format(_date=datetime.now()))
 

@@ -3,13 +3,18 @@ from datetime import datetime
 from scrape.project_files import ProjectFiles
 from scrape.git_hub_scrapper import GitHubScrapper
 from scrape.file import file_opened
+
 DOMAIN = 'https://github.com'
+
 
 def main():
 
     print('[INICIO.{_date:%Y/%m/%d %H:%M:%S}]'.format(_date=datetime.now()))
 
     for project in file_opened('repositories.txt'):
+
+        images = ('jpg', 'gif', 'ico', 'png')
+        configs = ('db', 'eot', 'otf', 'woff, ttf')
 
         print('[{projeto}]'.format(projeto=project))
 
@@ -21,17 +26,19 @@ def main():
 
         for project_file in files:
             if not project_file.is_folder():
-                if project_file.extension not in result:
-                    result[project_file.extension] = {
-                        'lines': 0,
-                        'lines_percent': 0.0,
-                        'bytes': 0.0,
-                        'bytes_percent': 0.0
-                    }
-                all_lines += project_file.get_lines()
-                all_bytes += project_file.get_bytes()
-                result[project_file.extension]['lines'] += project_file.get_lines()
-                result[project_file.extension]['bytes'] += project_file.get_bytes()
+                extesion = project_file.get_extension()
+                if extesion not in images and extesion not in configs:
+                    if extesion not in result:
+                        result[project_file.get_extension()] = {
+                            'lines': 0,
+                            'lines_percent': 0.0,
+                            'bytes': 0.0,
+                            'bytes_percent': 0.0
+                        }
+                    all_lines += project_file.get_lines()
+                    all_bytes += project_file.get_bytes()
+                    result[extesion]['lines'] += project_file.get_lines()
+                    result[extesion]['bytes'] += project_file.get_bytes()
 
         print('Extensão')
 
@@ -48,7 +55,7 @@ def main():
                 bytes_percent=bytes_percent
             ))
 
-        print('\nArvore de diretórios:')
+        print('\nArvore de Diretórios:')
 
         for project_file in files:
             print('\t' * project_file.get_depth() + project_file.get_name())
@@ -56,4 +63,5 @@ def main():
     print('[FIM.{_date:%Y/%m/%d %H:%M:%S}]'.format(_date=datetime.now()))
 
 if '__main__' == __name__:
+
     main()

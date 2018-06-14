@@ -1,6 +1,6 @@
 
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 
 class GitHubScrapper(object):
 
@@ -9,8 +9,7 @@ class GitHubScrapper(object):
         for element in html_tree.find_all(self.filter):
             yield element.attrs.get('href')
 
-
-    def filter(selfself, tag):
+    def filter(self, tag):
         return tag.name == 'a' and tag.attrs.get('class', '') == ['js-navigation-open'] and not tag.attrs.get('rel')
 
     def get_link_info(self, url):

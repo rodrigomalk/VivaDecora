@@ -9,6 +9,8 @@ class Link (object):
         self.scrapper = scrapper
         self.extension = self.url.split('.')[-1]
         self.info = None
+        self.files = []
+        self.depth = 0
 
     def is_folder(self):
         return '/tree' in self.url
@@ -25,3 +27,15 @@ class Link (object):
         if self.info is None:
             self.info = self.scrapper.get_link_info(self.url)
         return self.info
+
+    def get_depth(self):
+        parent = self.parent
+        depth = 0
+        while parent is not None:
+            parent = parent.parent
+            depth += 1
+        self.depth = depth
+        return depth
+
+    def get_name(self):
+        return self.url.split('/')[7 + self.depth]

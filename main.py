@@ -1,10 +1,8 @@
+
 from datetime import datetime
-from pprint import pprint
-
-from scrape.file import *
-from scrape.git_hub_scrapper import *
-from scrape.project_files import *
-
+from scrape.project_files import ProjectFiles
+from scrape.git_hub_scrapper import GitHubScrapper
+from scrape.file import file_opened
 DOMAIN = 'https://github.com'
 
 def main():

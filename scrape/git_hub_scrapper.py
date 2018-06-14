@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 class GitHubScrapper(object):
 
     def get_links(self, url):

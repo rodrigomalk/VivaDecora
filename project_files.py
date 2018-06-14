@@ -32,18 +32,23 @@ class ProjectFiles(object):
             if file.is_folder():
                 self.files_ordened.append(file.get_name())
                 self.files.remove(file)
-                self.deepening_list(file)
+                self.deepening_list(file, 1)
         return self.files_ordened
 
-    def deepening_list(self, parent):
+    def deepening_list(self, parent, depth):
         for file in self.files:
+            name = ''
+            cont = depth
             if file.parent == parent:
-                self.files_ordened.append(file.get_name())
-                self.files.remove(file)
+                while cont > 0:
+                    name += '    '
+                    cont -= 1
+                name += '|_...' + file.get_name()
+                self.files_ordened.append(name)
                 if file.is_folder():
-                    self.files_ordened.append(file.get_name())
+                    depth += 1
                     self.files.remove(file)
-                    self.deepening_list(file)
+                    self.deepening_list(file, depth)
 
     def print_tree(self):
         self.list()

@@ -23,19 +23,16 @@ class ProjectFiles(object):
             self.files.append(link_file)
             if link_file.is_folder():
                 yield from self.list_files (link, parent = link_file)
-            else:
-                yield link_file
+            yield link_file
 
     def list(self):
         for file in self.files:
             file.get_depth()
             if file.is_folder():
                 self.files_ordened.append(file.get_name())
-                self.files.remove(file)
                 self.deepening_list(file, 1)
-            elif file.depth <= 0:
+            elif file.get_depth() == 0:
                 self.files_ordened.append(file.get_name())
-                self.files.remove(file)
         return self.files_ordened
 
     def deepening_list(self, parent, depth):

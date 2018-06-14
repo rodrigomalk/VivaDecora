@@ -3,7 +3,7 @@
     Teste para processo seletivo
 
 ```
-    Status: Desenvolvimento
+    Status: Concluído
 ```
 
 ### Tecnologias:
@@ -17,9 +17,6 @@
 Clone o projeto em sua maquina
 
     $ git clone git@github.com:rodrigomalk/VivaDecora.git
-
-### Instale os Requerimentos
-
     $ pip3 install -r requirements.txt
 
 
